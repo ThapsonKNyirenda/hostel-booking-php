@@ -19,22 +19,25 @@ if ($conn->connect_error) {
 }
 
 // Fetch registration details
-$sql = "SELECT * FROM applications WHERE owner = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $user_id); // Bind the logged-in user ID to the query
+$sql = "SELECT * FROM applications";
+$stmt = $conn->prepare($sql); // Bind the logged-in user ID to the query
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Home</title>
+    <title>Registration</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
     .sidebar {
         transition: transform 0.3s ease-in-out;
@@ -45,77 +48,43 @@ $result = $stmt->get_result();
         height: 300px;
         width: 100%;
     }
-
-    .notification {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        opacity: 1;
-        transition: opacity 0.5s ease, transform 0.5s ease;
-        transform: translateX(-50%) translateY(-20px);
-    }
-
-    .notification.show {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-
-    .notification.hide {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-    }
     </style>
 </head>
 
 <body>
     <div class="flex h-screen bg-gray-100">
 
-        <!-- sidebar -->
+        <!-- Sidebar -->
         <div id="sidebar"
             class="sidebar fixed inset-0 md:relative md:flex md:w-64 bg-gray-800 transform -translate-x-full md:translate-x-0">
 
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <div class="flex items-center justify-between h-16 bg-gray-900 px-4">
-                    <span class="text-white font-bold uppercase">Sidebar</span>
+                    <span class="text-white font-bold uppercase"></span>
                     <!-- Close Button for Sidebar (hidden on md and larger screens) -->
                     <button id="close-button" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <nav class="flex-1 px-2 py-4 bg-gray-800">
-                    <a href="#" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                    <a href="admin-home.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                        <i class="fas fa-tachometer-alt fa-lg mr-2"></i>
+                        Dashboard
+                    </a>
+                    <a href="applications.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="fas fa-clipboard-list fa-lg mr-2"></i>
                         Applications
                     </a>
+                    <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="fas fa-users fa-lg mr-2"></i>
+                        Users
+                    </a>
                     <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <i class="fas fa-user fa-lg mr-2"></i>
                         Profile
                     </a>
                     <a href="../logout.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                        <i class="fas fa-sign-out-alt fa-lg mr-2"></i>
                         Logout
                     </a>
                 </nav>
@@ -207,6 +176,7 @@ $result = $stmt->get_result();
                 </div>
             </div>
         </div>
+
     </div>
 
     <script>
@@ -220,37 +190,78 @@ $result = $stmt->get_result();
         sidebar.classList.add('-translate-x-full');
     });
 
-    function showNotification(message) {
-        const notification = document.createElement("div");
-        notification.className = "notification"; // Apply the notification class
-        notification.textContent = message;
-        document.body.appendChild(notification);
+    // User Growth Chart
+    const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+    new Chart(userGrowthCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'User Growth',
+                data: [50, 60, 70, 90, 110, 130],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
 
-        // Trigger animation
-        setTimeout(() => {
-            notification.classList.add("show");
-        }, 100);
-
-        // Hide after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove("show");
-            notification.classList.add("hide");
-            setTimeout(() => notification.remove(), 500);
-        }, 3000);
-    }
-
-    // Check for the query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('message') === 'success') {
-        showNotification('Registration successful!');
-    } else {
-        showNotification('REgistration Failed!');
-    }
+    // Applications by Type Chart
+    const applicationsCtx = document.getElementById('applicationsChart').getContext('2d');
+    new Chart(applicationsCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Type A', 'Type B', 'Type C', 'Type D'],
+            datasets: [{
+                label: 'Applications by Type',
+                data: [300, 150, 100, 50],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
     </script>
 </body>
 
 </html>
-
-<?php
-$conn->close(); // Close the database connection
-?>
