@@ -120,11 +120,6 @@ $result = $stmt->get_result();
 
             <!-- Content Section -->
             <div class="p-4">
-                <!-- Button before the card -->
-                <a href="register.php"
-                    class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none mb-4 inline-block">
-                    Apply Now
-                </a>
                 <!-- Card -->
                 <div class="bg-white rounded-lg shadow-md p-4">
                     <h3 class="text-xl font-semibold text-gray-800">Registration Details</h3>

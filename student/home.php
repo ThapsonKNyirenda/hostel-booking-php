@@ -243,8 +243,10 @@ $result = $stmt->get_result();
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('message') === 'success') {
         showNotification('Registration successful!');
-    } else {
-        showNotification('REgistration Failed!');
+        urlParams.get('message') = '';
+    } else if (urlParams.get('message') === 'already_exist') {
+        showNotification('You have already submitted the registration form!');
+        urlParams.get('message') = '';
     }
     </script>
 </body>
