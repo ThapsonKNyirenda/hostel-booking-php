@@ -1,11 +1,19 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import path from 'path'
 
 export default defineConfig({
-  server: {
-    watch: {
-      // Watch PHP files for changes
-      usePolling: true,
-      interval: 1000,
+  build: {
+    outDir: 'public/assets',
+    assetsDir: '',
+    sourcemap: false,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'src/main.css')
+      },
+      output: {
+        assetFileNames: 'main.css', // Use the original filename
+      }
     },
-  },
-});
+    assetFileNames: 'main.css' // Output filename without hash
+  }
+})
