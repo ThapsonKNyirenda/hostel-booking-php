@@ -72,7 +72,7 @@ $user = $result->fetch_assoc();
                         <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
                     </a>
-                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                    <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <i class="mr-2 fas fa-user fa-lg"></i>
                         Profile
                     </a>
@@ -116,7 +116,7 @@ $user = $result->fetch_assoc();
                 <h2 class="mb-4 text-2xl font-semibold text-gray-800">Profile</h2>
                 <div class="flex flex-col items-center">
                     <!-- Profile Picture -->
-                    <img src="path/to/profile/picture.jpg" alt="Profile Picture" class="w-32 h-32 mb-4 rounded-full">
+                    <img src="img/profile_pic.jpg" alt="Profile Picture" class="w-32 h-32 mb-4 rounded-full">
 
                     <div class="text-center">
                         <p class="mb-2 text-lg font-medium text-gray-700">ID: <?php echo htmlspecialchars($user['id']); ?></p>

@@ -56,11 +56,11 @@ $result = $stmt->get_result();
 
         <!-- Sidebar -->
         <div id="sidebar"
-            class="sidebar fixed inset-0 md:relative md:flex md:w-64 bg-gray-800 transform -translate-x-full md:translate-x-0">
+            class="fixed inset-0 transform -translate-x-full bg-gray-800 sidebar md:relative md:flex md:w-64 md:translate-x-0">
 
             <div class="flex flex-col flex-1 overflow-y-auto">
-                <div class="flex items-center justify-between h-16 bg-gray-900 px-4">
-                    <span class="text-white font-bold uppercase"></span>
+                <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
+                    <span class="font-bold text-white uppercase"></span>
                     <!-- Close Button for Sidebar (hidden on md and larger screens) -->
                     <button id="close-button" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
                         <i class="fas fa-times"></i>
@@ -68,23 +68,23 @@ $result = $stmt->get_result();
                 </div>
                 <nav class="flex-1 px-2 py-4 bg-gray-800">
                     <a href="admin-home.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-tachometer-alt fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-tachometer-alt fa-lg"></i>
                         Dashboard
                     </a>
                     <a href="applications.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-clipboard-list fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-users fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
                     </a>
-                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-user fa-lg mr-2"></i>
+                    <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="mr-2 fas fa-user fa-lg"></i>
                         Profile
                     </a>
                     <a href="../logout.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-sign-out-alt fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-sign-out-alt fa-lg"></i>
                         Logout
                     </a>
                 </nav>
@@ -97,19 +97,19 @@ $result = $stmt->get_result();
                 <div class="flex items-center">
                     <!-- Hamburger Menu for Mobile -->
                     <button id="menu-button"
-                        class="md:hidden text-gray-500 focus:outline-none focus:text-gray-700 ml-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        class="ml-4 text-gray-500 md:hidden focus:outline-none focus:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <input class="mx-4 w-full border rounded-md px-4 py-2" type="text" placeholder="Search">
+                    <input class="w-full px-4 py-2 mx-4 border rounded-md" type="text" placeholder="Search">
                 </div>
                 <div class="flex items-center pr-4">
                     <button
                         class="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 19l-7-7 7-7m5 14l7-7-7-7" />
@@ -121,26 +121,26 @@ $result = $stmt->get_result();
             <!-- Content Section -->
             <div class="p-4">
                 <!-- Card -->
-                <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="p-4 bg-white rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-800">Registration Details</h3>
-                    <p class="text-gray-600 mt-2">Below are the details of the registered occupants:</p>
+                    <p class="mt-2 text-gray-600">Below are the details of the registered occupants:</p>
 
                     <!-- Table -->
                     <div class="mt-4 overflow-x-auto">
                         <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                             <thead>
                                 <tr class="w-full bg-gray-100 border-b">
-                                    <th class="py-2 px-4 text-left">First Name</th>
-                                    <th class="py-2 px-4 text-left">Last Name</th>
-                                    <th class="py-2 px-4 text-left">Phone Number</th>
-                                    <th class="py-2 px-4 text-left">Gender</th>
-                                    <th class="py-2 px-4 text-left">Registration Date</th>
-                                    <th class="py-2 px-4 text-left">Room Number</th>
-                                    <th class="py-2 px-4 text-left">Home Address</th>
-                                    <th class="py-2 px-4 text-left">Course</th>
-                                    <th class="py-2 px-4 text-left">Next of Kin Name</th>
-                                    <th class="py-2 px-4 text-left">Next of Kin Address</th>
-                                    <th class="py-2 px-4 text-left">Next of Kin Phone Number</th>
+                                    <th class="px-4 py-2 text-left">First Name</th>
+                                    <th class="px-4 py-2 text-left">Last Name</th>
+                                    <th class="px-4 py-2 text-left">Phone Number</th>
+                                    <th class="px-4 py-2 text-left">Gender</th>
+                                    <th class="px-4 py-2 text-left">Registration Date</th>
+                                    <th class="px-4 py-2 text-left">Room Number</th>
+                                    <th class="px-4 py-2 text-left">Home Address</th>
+                                    <th class="px-4 py-2 text-left">Course</th>
+                                    <th class="px-4 py-2 text-left">Next of Kin Name</th>
+                                    <th class="px-4 py-2 text-left">Next of Kin Address</th>
+                                    <th class="px-4 py-2 text-left">Next of Kin Phone Number</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -148,21 +148,21 @@ $result = $stmt->get_result();
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['first_name']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['last_name']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['phone_number']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['gender']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['registration_date']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . $row['room_number'] . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['home_address']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['course']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
-                                        echo "<td class='py-2 px-4 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['first_name']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['last_name']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['phone_number']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['gender']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['registration_date']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . $row['room_number'] . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['home_address']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['course']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='10' class='py-2 px-4 text-center'>No records found</td></tr>";
+                                    echo "<tr><td colspan='10' class='px-4 py-2 text-center'>No records found</td></tr>";
                                 }
                                 ?>
                             </tbody>

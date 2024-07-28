@@ -18,12 +18,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch registration details
-$sql = "SELECT * FROM applications WHERE owner = ?";
+// Fetch user details
+$sql = "SELECT id, email, userType FROM users WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $user_id); // Bind the logged-in user ID to the query
+$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+$user = $result->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -150,59 +151,16 @@ $result = $stmt->get_result();
             </div>
 
             <!-- Content Section -->
-            <div class="p-4">
-                <!-- Button before the card -->
-                <a href="register.php"
-                    class="inline-block px-4 py-2 mb-4 text-white bg-gray-800 rounded-md hover:bg-gray-900 focus:outline-none">
-                    Apply Now
-                </a>
-                <!-- Card -->
-                <div class="p-4 bg-white rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold text-gray-800">Registration Details</h3>
-                    <p class="mt-2 text-gray-600">Below are your registered details:</p>
+            <div class="p-6 m-4 bg-white rounded-lg shadow-md">
+                <h2 class="mb-4 text-2xl font-semibold text-gray-800">Profile</h2>
+                <div class="flex flex-col items-center">
+                    <!-- Profile Picture -->
+                    <img src="img/profile_pic.jpg" alt="Profile Picture" class="w-32 h-32 mb-4 rounded-full">
 
-                    <!-- Table -->
-                    <div class="mt-4 overflow-x-auto">
-                        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                            <thead>
-                                <tr class="w-full bg-gray-100 border-b">
-                                    <th class="px-4 py-2 text-left">First Name</th>
-                                    <th class="px-4 py-2 text-left">Last Name</th>
-                                    <th class="px-4 py-2 text-left">Phone Number</th>
-                                    <th class="px-4 py-2 text-left">Gender</th>
-                                    <th class="px-4 py-2 text-left">Registration Date</th>
-                                    <th class="px-4 py-2 text-left">Room Number</th>
-                                    <th class="px-4 py-2 text-left">Home Address</th>
-                                    <th class="px-4 py-2 text-left">Course</th>
-                                    <th class="px-4 py-2 text-left">Next of Kin Name</th>
-                                    <th class="px-4 py-2 text-left">Next of Kin Address</th>
-                                    <th class="px-4 py-2 text-left">Next of Kin Phone Number</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['first_name']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['last_name']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['phone_number']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['gender']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['registration_date']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . $row['room_number'] . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['home_address']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['course']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
-                                        echo "</tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='10' class='px-4 py-2 text-center'>No records found</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                    <div class="text-center">
+                        <p class="mb-2 text-lg font-medium text-gray-700">ID: <?php echo htmlspecialchars($user['id']); ?></p>
+                        <p class="mb-2 text-lg font-medium text-gray-700">Email: <?php echo htmlspecialchars($user['email']); ?></p>
+                        <p class="mb-2 text-lg font-medium text-gray-700">User Type: <?php echo htmlspecialchars($user['userType']); ?></p>
                     </div>
                 </div>
             </div>
