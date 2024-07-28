@@ -74,11 +74,11 @@ $conn->close();
 
         <!-- Sidebar -->
         <div id="sidebar"
-            class="sidebar fixed inset-0 md:relative md:flex md:w-64 bg-gray-800 transform -translate-x-full md:translate-x-0">
+            class="fixed inset-0 transform -translate-x-full bg-gray-800 sidebar md:relative md:flex md:w-64 md:translate-x-0">
 
             <div class="flex flex-col flex-1 overflow-y-auto">
-                <div class="flex items-center justify-between h-16 bg-gray-900 px-4">
-                    <span class="text-white font-bold uppercase"></span>
+                <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
+                    <span class="font-bold text-white uppercase"></span>
                     <!-- Close Button for Sidebar (hidden on md and larger screens) -->
                     <button id="close-button" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
                         <i class="fas fa-times"></i>
@@ -86,23 +86,23 @@ $conn->close();
                 </div>
                 <nav class="flex-1 px-2 py-4 bg-gray-800">
                     <a href="admin-home.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-tachometer-alt fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-tachometer-alt fa-lg"></i>
                         Dashboard
                     </a>
                     <a href="applications.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-clipboard-list fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-users fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
                     </a>
-                    <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-user fa-lg mr-2"></i>
+                    <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="mr-2 fas fa-user fa-lg"></i>
                         Profile
                     </a>
                     <a href="../logout.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <i class="fas fa-sign-out-alt fa-lg mr-2"></i>
+                        <i class="mr-2 fas fa-sign-out-alt fa-lg"></i>
                         Logout
                     </a>
                 </nav>
@@ -115,19 +115,19 @@ $conn->close();
             <div class="flex items-center justify-between h-16 bg-white border-b border-gray-200">
                 <div class="flex items-center px-4">
                     <!-- Hamburger Menu for Mobile -->
-                    <button id="menu-button" class="md:hidden text-gray-500 focus:outline-none focus:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    <button id="menu-button" class="text-gray-500 md:hidden focus:outline-none focus:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <input class="mx-4 w-full border rounded-md px-4 py-2" type="text" placeholder="Search">
+                    <input class="w-full px-4 py-2 mx-4 border rounded-md" type="text" placeholder="Search">
                 </div>
                 <div class="flex items-center pr-4">
                     <button
                         class="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 19l-7-7 7-7m5 14l7-7-7-7" />
@@ -139,38 +139,38 @@ $conn->close();
                 <!-- <h1 class="text-2xl font-bold">Dashboard Overview</h1> -->
 
                 <!-- Dashboard Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-                    <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="grid grid-cols-1 gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="p-4 bg-white rounded-lg shadow-md">
                         <h2 class="text-xl font-bold text-gray-700">Total Users</h2>
-                        <p class="text-3xl font-semibold text-gray-900 mt-2">
+                        <p class="mt-2 text-3xl font-semibold text-gray-900">
                             <?php echo ($totalUsers);?>
                         </p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-md">
+                    <div class="p-4 bg-white rounded-lg shadow-md">
                         <h2 class="text-xl font-bold text-gray-700">Students</h2>
-                        <p class="text-3xl font-semibold text-gray-900 mt-2"><?php echo ($students);?></p>
+                        <p class="mt-2 text-3xl font-semibold text-gray-900"><?php echo ($students);?></p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-md">
+                    <div class="p-4 bg-white rounded-lg shadow-md">
                         <h2 class="text-xl font-bold text-gray-700">Admins</h2>
-                        <p class="text-3xl font-semibold text-gray-900 mt-2"><?php echo ($admins);?></p>
+                        <p class="mt-2 text-3xl font-semibold text-gray-900"><?php echo ($admins);?></p>
                     </div>
-                    <div class="bg-white p-4 rounded-lg shadow-md">
+                    <div class="p-4 bg-white rounded-lg shadow-md">
                         <h2 class="text-xl font-bold text-gray-700">Applications</h2>
-                        <p class="text-3xl font-semibold text-gray-900 mt-2"><?php echo ($applications);?></p>
+                        <p class="mt-2 text-3xl font-semibold text-gray-900"><?php echo ($applications);?></p>
                     </div>
                 </div>
 
                 <!-- Sample Graphs -->
-                <div class="mt-6 flex flex-col md:flex-row md:space-x-4">
-                    <div class="bg-white p-4 rounded-lg shadow-md flex-1">
-                        <h2 class="text-xl font-bold text-gray-700 mb-4">User Growth</h2>
+                <div class="flex flex-col mt-6 md:flex-row md:space-x-4">
+                    <div class="flex-1 p-4 bg-white rounded-lg shadow-md">
+                        <h2 class="mb-4 text-xl font-bold text-gray-700">User Growth</h2>
                         <div class="chart-container">
                             <canvas id="userGrowthChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="bg-white p-4 rounded-lg shadow-md flex-1 mt-6 md:mt-0">
-                        <h2 class="text-xl font-bold text-gray-700 mb-4">Applications by Type</h2>
+                    <div class="flex-1 p-4 mt-6 bg-white rounded-lg shadow-md md:mt-0">
+                        <h2 class="mb-4 text-xl font-bold text-gray-700">Applications by Type</h2>
                         <div class="chart-container">
                             <canvas id="applicationsChart"></canvas>
                         </div>
