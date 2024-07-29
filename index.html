@@ -34,6 +34,13 @@
         opacity: 0;
         transform: translateX(-50%) translateY(-20px);
       }
+
+      body {
+        background-image: url(img/bg.jpg);
+        background-size: cover; /* Cover the entire background */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat;
+      }
     </style>
   </head>
 
@@ -48,16 +55,18 @@
         >
           <div class="max-w-md mx-auto">
             <!-- Logo Section -->
-            <div class="flex justify-center mb-8">
+            <div class="flex justify-center mb-6">
               <img
                 src="img/logo.png"
                 alt="Hostel Logo"
-                class="object-contain w-auto h-20 sm:h-24"
+                class="object-contain w-auto h-28 sm:h-32"
               />
             </div>
-            <div>
+
+            <div class="mb-4">
               <h1 class="text-2xl font-semibold text-center text-gray-800">
-                Login
+                Welcome to Khalidwa Hostels <br />
+                Please login
               </h1>
             </div>
             <form
