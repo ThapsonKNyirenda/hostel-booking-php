@@ -215,6 +215,10 @@ echo "</tr>";
     <div id="notification" class="notification hide">
         Operation Successfully!
     </div>
+    
+    <div id="notification-already-exist" class="notification hide">
+        You have already applied, Please you can now only edit!
+    </div>
 
     <!-- Script to toggle the sidebar -->
     <script>
@@ -239,12 +243,26 @@ echo "</tr>";
         }, 3000);
     }
 
+    function showAlreadyExistNotification() {
+        const notification = document.getElementById('notification-already-exist');
+        notification.classList.remove('hide');
+        notification.classList.add('show');
+
+        // Hide the notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            notification.classList.add('hide');
+        }, 3000);
+    }
+
     // Check if the 'submitted' parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('submitted')) {
         showNotification();
     }else if (urlParams.has('updated')) {
         showNotification();
+    }else if (urlParams.has('message')) {
+        showAlreadyExistNotification();
     }
     </script>
 </body>
