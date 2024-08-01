@@ -213,19 +213,19 @@ $result = $stmt->get_result();
                     <label class="block mb-2 font-bold text-gray-700" for="registration_date">Registration Date</label>
                     <input
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="registration_date" name="registration_date" type="date" required>
+                        id="registration_date" name="registration_date" type="date" value="<?php echo htmlspecialchars($data['registration_date']); ?>" required>
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 font-bold text-gray-700" for="home_address">Home Address</label>
                     <textarea
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="home_address" name="home_address" rows="3" placeholder="Home Address" required></textarea>
+                        id="home_address" name="home_address" rows="3" placeholder="Home Address" required><?php echo htmlspecialchars($data['home_address']); ?></textarea>
                 </div>
                 <div class="mb-4">
                     <label class="block mb-2 font-bold text-gray-700" for="course">Course being pursued</label>
                     <input
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="course" name="course" type="text" placeholder="Course" required>
+                        id="course" name="course" type="text" placeholder="Course" value="<?php echo htmlspecialchars($data['course']); ?>" required>
                 </div>
 
                 <!-- Guardian/Next of Kin Information -->
@@ -233,31 +233,30 @@ $result = $stmt->get_result();
                     <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_name">Next of Kin Name</label>
                     <input
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="next_of_kin_name" name="next_of_kin_name" type="text" placeholder="Next of Kin Name"
+                        id="next_of_kin_name" name="next_of_kin_name" type="text" placeholder="Next of Kin Name" value="<?php echo htmlspecialchars($data['next_of_kin_name']); ?>"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_address">Next of Kin Current
-                        Address</label>
-                    <textarea
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="next_of_kin_address" name="next_of_kin_address" rows="3"
-                        placeholder="Next of Kin Current Address" required></textarea>
-                </div>
+    <label class="block mb-2 font-bold text-gray-700" for="address">Next of kin Address</label>
+    <textarea
+        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+        id="address" name="address" placeholder="Your Address"  required><?php echo htmlspecialchars($data['course']); ?></textarea>
+</div>
+
                 <div class="mb-4">
                     <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_phone">Next of Kin Phone
                         Numbers</label>
                     <input
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                         id="next_of_kin_phone" name="next_of_kin_phone" type="text"
-                        placeholder="Next of Kin Phone Numbers" required>
+                        placeholder="Next of Kin Phone Numbers" value="<?php echo htmlspecialchars($data['next_of_kin_phone_number']); ?>" required>
                 </div>
 
                 <div class="mb-4">
                     <label class="block mb-2 font-bold text-gray-700" for="course">Room Number</label>
                     <input
                         class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="room_number" name="room_number" type="text" placeholder="room Number" required>
+                        id="room_number" name="room_number" type="text" placeholder="room Number" value="<?php echo htmlspecialchars($data['room_number']); ?>" required>
                 </div>
 
                 <div class="flex items-center">

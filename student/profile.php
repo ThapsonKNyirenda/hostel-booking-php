@@ -84,7 +84,7 @@ $user = $result->fetch_assoc();
 
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
-                    <span class="font-bold text-white uppercase">Sidebar</span>
+                    <span class="font-bold text-white uppercase"></span>
                     <!-- Close Button for Sidebar (hidden on md and larger screens) -->
                     <button id="close-button" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -139,14 +139,7 @@ $user = $result->fetch_assoc();
                     <input class="w-full px-4 py-2 mx-4 border rounded-md" type="text" placeholder="Search">
                 </div>
                 <div class="flex items-center pr-4">
-                    <button
-                        class="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 19l-7-7 7-7m5 14l7-7-7-7" />
-                        </svg>
-                    </button>
+                    
                 </div>
             </div>
 
@@ -158,7 +151,7 @@ $user = $result->fetch_assoc();
                     <img src="img/profile_pic.jpg" alt="Profile Picture" class="w-32 h-32 mb-4 rounded-full">
 
                     <div class="text-center">
-                        <p class="mb-2 text-lg font-medium text-gray-700">ID: <?php echo htmlspecialchars($user['id']); ?></p>
+                        <p class="mb-2 text-lg font-medium text-gray-700">User ID: <?php echo htmlspecialchars($user['id']); ?></p>
                         <p class="mb-2 text-lg font-medium text-gray-700">Email: <?php echo htmlspecialchars($user['email']); ?></p>
                         <p class="mb-2 text-lg font-medium text-gray-700">User Type: <?php echo htmlspecialchars($user['userType']); ?></p>
                     </div>

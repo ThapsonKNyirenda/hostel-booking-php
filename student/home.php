@@ -83,7 +83,7 @@ $result = $stmt->get_result();
 
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
-                    <span class="font-bold text-white uppercase">Sidebar</span>
+                    <span class="font-bold text-white uppercase"></span>
                     <!-- Close Button for Sidebar (hidden on md and larger screens) -->
                     <button id="close-button" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -138,14 +138,7 @@ $result = $stmt->get_result();
                     <input class="w-full px-4 py-2 mx-4 border rounded-md" type="text" placeholder="Search">
                 </div>
                 <div class="flex items-center pr-4">
-                    <button
-                        class="flex items-center text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 19l-7-7 7-7m5 14l7-7-7-7" />
-                        </svg>
-                    </button>
+                    
                 </div>
             </div>
 
@@ -177,7 +170,7 @@ $result = $stmt->get_result();
                                     <th class="px-4 py-2 text-left">Next of Kin Name</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Address</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Phone Number</th>
-                                    <th class="px-4 py-2 text-left">Edit</th>
+                                    <th class="px-4 py-2 text-left">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -220,7 +213,7 @@ echo "</tr>";
 
     <!-- Notification -->
     <div id="notification" class="notification hide">
-        Application Submitted Successfully!
+        Operation Successfully!
     </div>
 
     <!-- Script to toggle the sidebar -->
@@ -249,6 +242,8 @@ echo "</tr>";
     // Check if the 'submitted' parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('submitted')) {
+        showNotification();
+    }else if (urlParams.has('updated')) {
         showNotification();
     }
     </script>
