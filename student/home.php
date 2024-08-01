@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
 $user_id = $_SESSION['user_id']; 
 
 // Database configuration
-include '../connection/dbconnection.php' ;
+include '../connection/dbconnection.php';
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -177,40 +177,39 @@ $result = $stmt->get_result();
                                     <th class="px-4 py-2 text-left">Next of Kin Name</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Address</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Phone Number</th>
+                                    <th class="px-4 py-2 text-left">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['first_name']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['last_name']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['phone_number']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['gender']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['registration_date']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . $row['room_number'] . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['home_address']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['course']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
-        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
-        // Edit Icon Column
-        echo "<td class='px-4 py-2 border-b'>
-                <a href='edit_form.php?id=" . $row['id'] . "' class='text-gray-500 hover:text-gray-700'>
-                    <svg xmlns='http://www.w3.org/2000/svg' class='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' />
-                        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6v6m0 0v6m0-6h6m-6 0H6' />
-                    </svg>
-                </a>
-              </td>";
-        echo "</tr>";
-    }
-} else {
-    echo "<tr><td colspan='11' class='px-4 py-2 text-center'>No records found</td></tr>";
-}
-?>
+                                <?php
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['first_name']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['last_name']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['phone_number']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['gender']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['registration_date']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . $row['room_number'] . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['home_address']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['course']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
+                                        
+                                        // Edit Icon Column
+                                        echo "<td class='px-4 py-2 text-center border-b'>
+        <a href='edit_form.php?id=" . $row['id'] . "' class='text-gray-500 hover:text-gray-700'>
+            <img src='img/edit.svg' alt='Edit' class='w-6 h-6'>
+        </a>
+      </td>";
+echo "</tr>";
 
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='12' class='px-4 py-2 text-center'>No records found</td></tr>";
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -219,50 +218,40 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
+    <!-- Notification -->
+    <div id="notification" class="notification hide">
+        Application Submitted Successfully!
+    </div>
+
+    <!-- Script to toggle the sidebar -->
     <script>
     document.getElementById('menu-button').addEventListener('click', function() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('-translate-x-full');
+        document.getElementById('sidebar').classList.toggle('-translate-x-full');
     });
 
     document.getElementById('close-button').addEventListener('click', function() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.add('-translate-x-full');
+        document.getElementById('sidebar').classList.add('-translate-x-full');
     });
 
-    function showNotification(message) {
-        const notification = document.createElement("div");
-        notification.className = "notification"; // Apply the notification class
-        notification.textContent = message;
-        document.body.appendChild(notification);
+    // Show notification function
+    function showNotification() {
+        const notification = document.getElementById('notification');
+        notification.classList.remove('hide');
+        notification.classList.add('show');
 
-        // Trigger animation
+        // Hide the notification after 3 seconds
         setTimeout(() => {
-            notification.classList.add("show");
-        }, 100);
-
-        // Hide after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove("show");
-            notification.classList.add("hide");
-            setTimeout(() => notification.remove(), 500);
+            notification.classList.remove('show');
+            notification.classList.add('hide');
         }, 3000);
     }
 
-    // Check for the query parameter
+    // Check if the 'submitted' parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('message') === 'success') {
-        showNotification('Registration successful!');
-        urlParams.get('message') = '';
-    } else if (urlParams.get('message') === 'already_exist') {
-        showNotification('You have already submitted the registration form!');
-        urlParams.get('message') = '';
+    if (urlParams.has('submitted')) {
+        showNotification();
     }
     </script>
 </body>
 
 </html>
-
-<?php
-$conn->close(); // Close the database connection
-?>
