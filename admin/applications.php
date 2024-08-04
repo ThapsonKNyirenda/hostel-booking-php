@@ -164,8 +164,8 @@ $result = $stmt->get_result();
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
                                         echo "<td id='balance-{$row['id']}' class='px-4 py-2 border-b balance-column'>" . htmlspecialchars($row['balance']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>";
-                                        echo "<button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onclick='openBalanceUpdateForm({$row['id']})'>Update Balance</button>";
-                                        echo "</td>";
+                                        echo "<button class='bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onclick='openBalanceUpdateForm({$row['id']})'>Add Payment</button>";
+
                                         echo "</tr>";
                                     }
                                 } else {
@@ -184,31 +184,32 @@ $result = $stmt->get_result();
     <!-- Modal for Balance Update -->
     <div id="balanceUpdateModal"
         class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-1/2 max-w-md">
+        <div class="bg-gray-800 text-white p-6 rounded-lg w-1/2 max-w-md">
             <h2 class="text-lg font-semibold mb-4">Update Balance</h2>
             <form id="balanceUpdateForm" class="space-y-4">
                 <div>
-                    <label for="newBalance" class="block text-gray-700">New Balance:</label>
+                    <label for="newBalance" class="block text-gray-300">New Balance:</label>
                     <input type="number" id="newBalance" name="newBalance"
-                        class="border border-gray-300 rounded-md px-3 py-2 w-full" placeholder="Enter new balance">
+                        class="border border-gray-700 rounded-md px-3 py-2 w-full bg-gray-700 text-gray-300"
+                        placeholder="Enter new balance">
                 </div>
                 <input type="hidden" id="appId" name="appId">
-                <div class="flex gap-4">
+                <div class="flex gap-4 mt-4">
                     <button type="button" onclick="saveBalanceUpdate()"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save</button>
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save</button>
                     <button type="button" onclick="closeBalanceUpdateForm()"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
+                        class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 
+
     <!-- Notification -->
-    <div id="notification" class="fixed top-2 hidden bg-green-500 text-white p-4 rounded-lg shadow-lg z-50">
+    <div id="notification"
+        class="fixed top-4 left-1/2 transform -translate-x-1/2 hidden bg-green-500 text-white p-4 rounded-lg shadow-lg z-50">
         <p id="notificationMessage"></p>
     </div>
-
-
 
     <script>
     document.getElementById('menu-button').addEventListener('click', function() {
