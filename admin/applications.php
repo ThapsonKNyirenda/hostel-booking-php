@@ -20,10 +20,11 @@ if ($conn->connect_error) {
 
 // Fetch registration details
 $sql = "SELECT * FROM applications";
-$stmt = $conn->prepare($sql); // Bind the logged-in user ID to the query
+$stmt = $conn->prepare($sql); // Prepare the query
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -141,6 +142,8 @@ $result = $stmt->get_result();
                                     <th class="px-4 py-2 text-left">Next of Kin Name</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Address</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Phone Number</th>
+                                    <th class="px-4 py-2 text-left">Balance</th>
+                                    <th class="px-4 py-2 text-left">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,10 +162,14 @@ $result = $stmt->get_result();
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
+                                        echo "<td id='balance-{$row['id']}' class='px-4 py-2 border-b balance-column'>" . htmlspecialchars($row['balance']) . "</td>";
+                                        echo "<td class='px-4 py-2 border-b'>";
+                                        echo "<button class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onclick='openBalanceUpdateForm({$row['id']})'>Update Balance</button>";
+                                        echo "</td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='10' class='px-4 py-2 text-center'>No records found</td></tr>";
+                                    echo "<tr><td colspan='12' class='px-4 py-2 text-center'>No records found</td></tr>";
                                 }
                                 ?>
                             </tbody>
@@ -173,6 +180,35 @@ $result = $stmt->get_result();
         </div>
 
     </div>
+
+    <!-- Modal for Balance Update -->
+    <div id="balanceUpdateModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg w-1/2 max-w-md">
+            <h2 class="text-lg font-semibold mb-4">Update Balance</h2>
+            <form id="balanceUpdateForm" class="space-y-4">
+                <div>
+                    <label for="newBalance" class="block text-gray-700">New Balance:</label>
+                    <input type="number" id="newBalance" name="newBalance"
+                        class="border border-gray-300 rounded-md px-3 py-2 w-full" placeholder="Enter new balance">
+                </div>
+                <input type="hidden" id="appId" name="appId">
+                <div class="flex gap-4">
+                    <button type="button" onclick="saveBalanceUpdate()"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save</button>
+                    <button type="button" onclick="closeBalanceUpdateForm()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed top-2 hidden bg-green-500 text-white p-4 rounded-lg shadow-lg z-50">
+        <p id="notificationMessage"></p>
+    </div>
+
+
 
     <script>
     document.getElementById('menu-button').addEventListener('click', function() {
@@ -185,77 +221,61 @@ $result = $stmt->get_result();
         sidebar.classList.add('-translate-x-full');
     });
 
-    // User Growth Chart
-    const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
-    new Chart(userGrowthCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'User Growth',
-                data: [50, 60, 70, 90, 110, 130],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true,
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
-                        }
-                    }
-                }
-            }
-        }
-    });
+    function openBalanceUpdateForm(appId) {
+        document.getElementById('balanceUpdateModal').classList.remove('hidden');
+        document.getElementById('appId').value = appId;
+    }
 
-    // Applications by Type Chart
-    const applicationsCtx = document.getElementById('applicationsChart').getContext('2d');
-    new Chart(applicationsCtx, {
-        type: 'pie',
-        data: {
-            labels: ['Type A', 'Type B', 'Type C', 'Type D'],
-            datasets: [{
-                label: 'Applications by Type',
-                data: [300, 150, 100, 50],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
+    function closeBalanceUpdateForm() {
+        document.getElementById('balanceUpdateModal').classList.add('hidden');
+    }
+
+    function showNotification(message, isSuccess) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notificationMessage');
+
+        notificationMessage.textContent = message;
+        notification.classList.remove('hidden');
+        notification.classList.toggle('bg-green-500', isSuccess);
+        notification.classList.toggle('bg-red-500', !isSuccess);
+
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 5000);
+    }
+
+    function saveBalanceUpdate() {
+        const appId = document.getElementById('appId').value;
+        const newBalance = document.getElementById('newBalance').value;
+
+        // Perform AJAX request to update balance in the database
+        fetch('update_balance.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.label + ': ' + tooltipItem.raw;
-                        }
-                    }
+                body: JSON.stringify({
+                    appId: appId,
+                    newBalance: newBalance
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Update the balance in the table
+                    document.getElementById(`balance-${appId}`).textContent = newBalance;
+                    closeBalanceUpdateForm();
+                    showNotification('Balance updated successfully!', true);
+                } else {
+                    // Handle error
+                    showNotification(data.message, false);
                 }
-            }
-        }
-    });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showNotification('An error occurred while updating the balance.', false);
+            });
+    }
     </script>
 </body>
 
