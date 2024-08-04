@@ -49,6 +49,15 @@ $result = $stmt->get_result();
         height: 300px;
         width: 100%;
     }
+
+    .balance-column {
+        font-size: 1.1 rem;
+        /* Make the text larger */
+        font-weight: bold;
+        /* Make the text bold */
+        color: chocolate;
+        /* Use a yellow color for highlighting */
+    }
     </style>
 </head>
 
