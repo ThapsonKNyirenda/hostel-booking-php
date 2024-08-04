@@ -268,8 +268,15 @@ $result = $stmt->get_result();
                     const currentBalance = parseFloat(balanceCell.textContent);
                     const updatedBalance = currentBalance - parseFloat(newBalance);
                     balanceCell.textContent = updatedBalance.toFixed(2); // Update the balance display
+
+                    // Close the form and show notification
                     closeBalanceUpdateForm();
                     showNotification('Balance updated successfully!', true);
+
+                    // Refresh the page after a short delay to show the notification
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000); // Reload after 2 seconds (adjust delay as needed)
                 } else {
                     // Handle error
                     showNotification(data.message, false);
