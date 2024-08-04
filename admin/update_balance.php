@@ -10,7 +10,7 @@ if (isset($input['appId']) && isset($input['newBalance'])) {
     $newBalance = $input['newBalance'];
 
     // Prepare the SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("UPDATE applications SET balance = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE applications SET balance = balance - ? WHERE id = ?");
     $stmt->bind_param("di", $newBalance, $appId);
 
     if ($stmt->execute()) {

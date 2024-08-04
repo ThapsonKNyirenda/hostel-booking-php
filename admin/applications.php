@@ -162,7 +162,7 @@ $result = $stmt->get_result();
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
-                                        echo "<td id='balance-{$row['id']}' class='px-4 py-2 border-b balance-column'>" . htmlspecialchars($row['balance']) . "</td>";
+                                        echo "<td id='balance-{$row['id']}' class='px-4 py-2 border-b balance-column'>" ."K". htmlspecialchars($row['balance']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>";
                                         echo "<button class='bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onclick='openBalanceUpdateForm({$row['id']})'>Add Payment</button>";
 
@@ -191,19 +191,18 @@ $result = $stmt->get_result();
                     <label for="newBalance" class="block text-gray-300">New Balance:</label>
                     <input type="number" id="newBalance" name="newBalance"
                         class="border border-gray-700 rounded-md px-3 py-2 w-full bg-gray-700 text-gray-300"
-                        placeholder="Enter new balance">
+                        placeholder="Enter amount to subtract from balance">
                 </div>
                 <input type="hidden" id="appId" name="appId">
                 <div class="flex gap-4 mt-4">
                     <button type="button" onclick="saveBalanceUpdate()"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save</button>
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save</button>
                     <button type="button" onclick="closeBalanceUpdateForm()"
                         class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
-
 
     <!-- Notification -->
     <div id="notification"
@@ -242,7 +241,7 @@ $result = $stmt->get_result();
 
         setTimeout(() => {
             notification.classList.add('hidden');
-        }, 5000);
+        }, 5000); // Hide after 5 seconds
     }
 
     function saveBalanceUpdate() {
@@ -264,7 +263,10 @@ $result = $stmt->get_result();
             .then(data => {
                 if (data.status === 'success') {
                     // Update the balance in the table
-                    document.getElementById(`balance-${appId}`).textContent = newBalance;
+                    const balanceCell = document.getElementById(`balance-${appId}`);
+                    const currentBalance = parseFloat(balanceCell.textContent);
+                    const updatedBalance = currentBalance - parseFloat(newBalance);
+                    balanceCell.textContent = updatedBalance.toFixed(2); // Update the balance display
                     closeBalanceUpdateForm();
                     showNotification('Balance updated successfully!', true);
                 } else {
