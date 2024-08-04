@@ -185,13 +185,14 @@ $result = $stmt->get_result();
     <div id="balanceUpdateModal"
         class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-gray-800 text-white p-6 rounded-lg w-1/2 max-w-md">
-            <h2 class="text-lg font-semibold mb-4">Update Balance</h2>
+            <h2 class="text-lg font-semibold mb-1">Update Balance</h2>
+            <hr class="mb-4">
             <form id="balanceUpdateForm" class="space-y-4">
                 <div>
-                    <label for="newBalance" class="block text-gray-300">New Balance:</label>
+                    <label for="newBalance" class="block text-gray-300">New Payment:</label>
                     <input type="number" id="newBalance" name="newBalance"
                         class="border border-gray-700 rounded-md px-3 py-2 w-full bg-gray-700 text-gray-300"
-                        placeholder="Enter amount to subtract from balance">
+                        placeholder="Enter new amount paid">
                 </div>
                 <input type="hidden" id="appId" name="appId">
                 <div class="flex gap-4 mt-4">
