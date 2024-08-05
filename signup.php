@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate passwords
     if ($password !== $confirm_password) {
-        header("Location: signup.html?signup=pass_mismatch");
+        header("Location: signup.html?failed=pass_mismatch");
             exit();
     }
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: signup.html?signup=success");
         exit();
     } else {
-        header("Location: signup.html?signup=failed");
+        header("Location: signup.html?failed=failed");
         exit();
     }
 
