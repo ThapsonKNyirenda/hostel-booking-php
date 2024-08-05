@@ -28,12 +28,13 @@
         opacity: 1;
         transform: translateX(-50%) translateY(0);
       }
+
       .notification.hide {
         opacity: 0;
         transform: translateX(-50%) translateY(-20px);
       }
       .left-side {
-        background-image: url('img/bg4.jpg');
+        background-image: url("img/bg4.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -46,7 +47,9 @@
       <!-- Left Side for Background Image -->
       <div class="w-full bg-center bg-cover md:w-1/2 left-side"></div>
       <!-- Right Side for Sign In Form -->
-      <div class="flex items-center justify-center w-full py-12 bg-gray-100 md:w-1/2">
+      <div
+        class="flex items-center justify-center w-full py-12 bg-gray-100 md:w-1/2"
+      >
         <div class="relative py-3 sm:max-w-xl sm:mx-auto">
           <div
             class="absolute inset-0 transform -skew-y-6 bg-gray-300 shadow-lg sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
@@ -70,7 +73,7 @@
                 </h1>
               </div>
               <form
-                action="signin.php"
+                action="signup.php"
                 method="POST"
                 class="divide-y divide-gray-200"
               >
@@ -135,7 +138,7 @@
                   </div>
                 </div>
               </form>
-              <div class="text-center ">
+              <div class="text-center">
                 <p class="text-sm text-gray-600">
                   Already have an account?
                   <a href="index.html" class="text-gray-800 hover:underline"
@@ -149,30 +152,47 @@
       </div>
     </div>
 
+    <div id="notification" class="notification hide">
+      Successfully Signed in
+    </div>
+
+    <div id="notification-already-exist" class="notification hide">
+      Error during registration, Please try again later!
+  </div>
+
     <script>
-      function showNotification(message) {
-        const notification = document.createElement("div");
-        notification.className = "notification"; // Apply the notification class
-        notification.textContent = message;
-        document.body.appendChild(notification);
+      function showNotification() {
+        const notification = document.getElementById("notification");
+        notification.classList.remove("hide");
+        notification.classList.add("show");
 
-        // Trigger animation
-        setTimeout(() => {
-          notification.classList.add("show");
-        }, 100);
-
-        // Hide after 3 seconds
+        // Hide the notification after 3 seconds
         setTimeout(() => {
           notification.classList.remove("show");
           notification.classList.add("hide");
-          setTimeout(() => notification.remove(), 500);
         }, 3000);
       }
 
-      // Check for the query parameter
+      function showAlreadyExistNotification() {
+        const notification = document.getElementById('notification-already-exist');
+        notification.classList.remove('hide');
+        notification.classList.add('show');
+
+        // Hide the notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            notification.classList.add('hide');
+        }, 3000);
+    }
+
+      // Check if the 'submitted' parameter is present in the URL
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("signin") === "failed") {
-        showNotification("Sign in failed!");
+      if (urlParams.has("signup")) {
+        showNotification();
+      } else if (urlParams.has("updated")) {
+        showNotification();
+      } else if (urlParams.has("message")) {
+        showAlreadyExistNotification();
       }
     </script>
   </body>

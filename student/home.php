@@ -138,7 +138,7 @@ $result = $stmt->get_result();
                     <input class="w-full px-4 py-2 mx-4 border rounded-md" type="text" placeholder="Search">
                 </div>
                 <div class="flex items-center pr-4">
-                    
+
                 </div>
             </div>
 
@@ -215,7 +215,7 @@ echo "</tr>";
     <div id="notification" class="notification hide">
         Operation Successfully!
     </div>
-    
+
     <div id="notification-already-exist" class="notification hide">
         You have already applied, Please you can now only edit!
     </div>
@@ -259,9 +259,9 @@ echo "</tr>";
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('submitted')) {
         showNotification();
-    }else if (urlParams.has('updated')) {
+    } else if (urlParams.has('updated')) {
         showNotification();
-    }else if (urlParams.has('message')) {
+    } else if (urlParams.has('message')) {
         showAlreadyExistNotification();
     }
     </script>
