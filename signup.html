@@ -153,10 +153,10 @@
     </div>
 
     <div id="notification" class="notification hide">
-      Successfully Signed in
+      Successfully Signed in, Please login
     </div>
 
-    <div id="notification-already-exist" class="notification hide">
+    <div id="notification-error" class="notification hide">
       Error during registration, Please try again later!
   </div>
 
@@ -173,8 +173,8 @@
         }, 3000);
       }
 
-      function showAlreadyExistNotification() {
-        const notification = document.getElementById('notification-already-exist');
+      function showError() {
+        const notification = document.getElementById('notification-error');
         notification.classList.remove('hide');
         notification.classList.add('show');
 
@@ -189,11 +189,9 @@
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has("signup")) {
         showNotification();
-      } else if (urlParams.has("updated")) {
-        showNotification();
-      } else if (urlParams.has("message")) {
-        showAlreadyExistNotification();
-      }
+      } else {
+        showError();
+      } 
     </script>
   </body>
 </html>
