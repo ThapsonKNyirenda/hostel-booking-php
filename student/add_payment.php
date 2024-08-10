@@ -109,53 +109,41 @@ $result = $stmt->get_result();
                 </div>
             </div>
 
-            <!-- Content Section -->
+            <!-- Form Section -->
             <div class="container p-4 mx-auto">
-                <!-- Search and Filter -->
-                <div class="flex justify-between mb-4">
-                    <div class="flex">
-                        <input type="text" placeholder="Search" class="w-full max-w-xs px-4 py-2 border rounded-md">
-                        <select class="ml-4 px-4 py-2 border rounded-md">
-                            <option value="">Filter by Status</option>
-                            <option value="paid">Paid</option>
-                            <option value="unpaid">Unpaid</option>
-                        </select>
+                <form action="handle_payment.php" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <!-- Description -->
+                    <div class="">
+                        Deposit the money to the accounts below
+                        TNM Mpamba: <br>
+                        Airtel Money: <br>
+                        Bank: <br>
+
                     </div>
-                    <!-- Add Payment Button -->
-                    <a href="add_payment.php"><button class=" px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600
-                        focus:outline-none focus:bg-blue-600">
-                            Add Payment
 
-                        </button></a>
-                </div>
+                    <!-- Amount -->
+                    <div>
+                        <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+                        <input type="number" id="amount" name="amount" required
+                            class="w-full px-4 py-2 mt-1 border rounded-md">
+                    </div>
 
-                <!-- Table -->
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white border border-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Payment Status
-                                </th>
-                                <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Proof</th>
-                                <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while($row = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td class="px-6 py-4 text-sm text-gray-700"><?php echo $row['payment_status']; ?></td>
-                                <td class="px-6 py-4 text-sm text-gray-700"><?php echo $row['proof']; ?></td>
-                                <td class="px-6 py-4 text-sm text-gray-700">
-                                    <button
-                                        class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
+                    <!-- Proof of Payment -->
+                    <div>
+                        <label for="proof" class="block text-sm font-medium text-gray-700">Proof of
+                            Payment</label>
+                        <input type="file" id="proof" name="proof" accept="image/*" required
+                            class="w-full px-4 py-2 mt-1 border rounded-md">
+                    </div>
+
+                    <!-- Save Button -->
+                    <div>
+                        <button type="submit"
+                            class="px-4 py-2 font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                            Save Payment
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 </body>
