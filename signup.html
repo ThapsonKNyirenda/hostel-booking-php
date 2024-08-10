@@ -157,7 +157,7 @@
     </div>
 
     <div id="notification-error" class="notification hide">
-      Error during registration, Please try again later!
+      User already exist or an Error has occurred, Please try again later!
   </div>
 
     <script>
@@ -189,9 +189,9 @@
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has("signup")) {
         showNotification();
-      } else {
+      }else if (urlParams.has("failed")) {  
         showError();
-      } 
+      }
     </script>
   </body>
 </html>

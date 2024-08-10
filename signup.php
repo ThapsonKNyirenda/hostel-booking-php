@@ -14,7 +14,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate passwords
     if ($password !== $confirm_password) {
         header("Location: signup.html?failed=pass_mismatch");
-            exit();
+        exit();
+    }
+
+    // Check if email already exists
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        header("Location: signup.html?failed=email exists");
+        exit();
     }
 
     // Hash password
