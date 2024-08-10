@@ -41,8 +41,8 @@ if ($check_result->num_rows > 0) {
 }
 
 // Prepare SQL statement to prevent SQL injection
-$stmt = $conn->prepare("INSERT INTO applications (first_name, last_name, phone_number, gender, registration_date, home_address, course, next_of_kin_name, next_of_kin_current_address, next_of_kin_phone_number, owner, room_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssssssssssss", $first_name, $last_name, $phone_number, $gender, $registration_date, $home_address, $course, $next_of_kin_name, $next_of_kin_address, $next_of_kin_phone, $user_id, $room_number);
+$stmt = $conn->prepare("INSERT INTO applications (user_id,first_name, last_name, phone_number, gender, registration_date, home_address, course, next_of_kin_name, next_of_kin_current_address, next_of_kin_phone_number, owner, room_number,payment_status) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssssssssssss", $user_id,$first_name, $last_name, $phone_number, $gender, $registration_date, $home_address, $course, $next_of_kin_name, $next_of_kin_address, $next_of_kin_phone, $user_id, $room_number,"pending Payment");
 
 // Execute the statement
 if ($stmt->execute()) {

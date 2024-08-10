@@ -42,12 +42,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert payment into database
     $stmt = $conn->prepare("INSERT INTO payments (user_id, amount, proof) VALUES (?, ?, ?)");
-    $stmt->bind_param("isss", $user_id, $amount, $target_file);
+    $stmt->bind_param("iss", $user_id, $amount, $target_file);
 
     if ($stmt->execute()) {
-        header("Location: payment.php?add_payment=success");
-        exit();
+        // Update payment_status in applications table
+        $update_stmt = $conn->prepare("UPDATE applications SET payment_status = 'paid' WHERE user_id = ?");
+        $update_stmt->bind_param("i", $user_id);
+
+        if ($update_stmt->execute()) {
+            // If both the payment insertion and status update are successful, redirect to the payment page
+            header("Location: payment.php?add_payment=success");
+            exit();
+        } else {
+            // If updating the payment status fails, redirect back with a failure message
+            header("Location: add_payment.php?failed=status_update_failed");
+            exit();
+        }
+
+        $update_stmt->close();
     } else {
+        // If inserting the payment fails, redirect back with a failure message
         header("Location: add_payment.php?failed=failed");
         exit();
     }

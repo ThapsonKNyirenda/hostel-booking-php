@@ -1,4 +1,24 @@
 <?php
+
+session_start(); // Start the session
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // If not logged in, destroy the session and redirect to the index page
+    session_unset();
+    session_destroy();
+    header("Location: ../index.html");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Database configuration
+include '../connection/dbconnection.php';
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $first_name = $_POST['first_name'];
