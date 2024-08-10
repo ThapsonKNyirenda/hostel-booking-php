@@ -12,19 +12,18 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
 $user_id = $_SESSION['user_id']; 
 
 // Database configuration
-include '../connection/dbconnection.php' ;
+include '../connection/dbconnection.php';
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch user details
-$sql = "SELECT id, email, userType FROM users WHERE id = ?";
+// Fetch registration details
+$sql = "SELECT * FROM applications WHERE owner = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("s", $user_id); // Bind the logged-in user ID to the query
 $stmt->execute();
 $result = $stmt->get_result();
-$user = $result->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +32,7 @@ $user = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student profile</title>
+    <title>Student Home</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -152,69 +151,9 @@ $user = $result->fetch_assoc();
             </div>
 
             <!-- Content Section -->
-            <div class="p-6 m-4 bg-white rounded-lg shadow-md">
-                <h2 class="mb-4 text-2xl font-semibold text-gray-800">Profile</h2>
-                <div class="flex flex-col items-center">
-                    <!-- Profile Picture -->
-                    <img src="img/profile_pic.jpg" alt="Profile Picture" class="w-32 h-32 mb-4 rounded-full">
+            <div class="container p-4 mx-auto">
 
-                    <div class="text-center">
-                        <p class="mb-2 text-lg font-medium text-gray-700">User ID:
-                            <?php echo htmlspecialchars($user['id']); ?></p>
-                        <p class="mb-2 text-lg font-medium text-gray-700">Email:
-                            <?php echo htmlspecialchars($user['email']); ?></p>
-                        <p class="mb-2 text-lg font-medium text-gray-700">User Type:
-                            <?php echo htmlspecialchars($user['userType']); ?></p>
-                    </div>
-                </div>
             </div>
-        </div>
-    </div>
-
-    <script>
-    document.getElementById('menu-button').addEventListener('click', function() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('-translate-x-full');
-    });
-
-    document.getElementById('close-button').addEventListener('click', function() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.add('-translate-x-full');
-    });
-
-    function showNotification(message) {
-        const notification = document.createElement("div");
-        notification.className = "notification"; // Apply the notification class
-        notification.textContent = message;
-        document.body.appendChild(notification);
-
-        // Trigger animation
-        setTimeout(() => {
-            notification.classList.add("show");
-        }, 100);
-
-        // Hide after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove("show");
-            notification.classList.add("hide");
-            setTimeout(() => notification.remove(), 500);
-        }, 3000);
-    }
-
-    // Check for the query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('message') === 'success') {
-        showNotification('Registration successful!');
-        urlParams.get('message') = '';
-    } else if (urlParams.get('message') === 'already_exist') {
-        showNotification('You have already submitted the registration form!');
-        urlParams.get('message') = '';
-    }
-    </script>
 </body>
 
 </html>
-
-<?php
-$conn->close(); // Close the database connection
-?>

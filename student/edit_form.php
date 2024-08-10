@@ -127,6 +127,14 @@ $result = $stmt->get_result();
                         </svg>
                         Applications
                     </a>
+                    <a href="payment.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Payments
+                    </a>
                     <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -176,95 +184,110 @@ $result = $stmt->get_result();
 
             <!-- Content Section -->
             <div class="container p-4 mx-auto">
-        <div class="p-6 bg-white rounded-lg shadow-md">
-            <h2 class="mb-6 text-2xl font-bold">Edit Registration Details</h2>
-            <form action="update_registration.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
+                <div class="p-6 bg-white rounded-lg shadow-md">
+                    <h2 class="mb-6 text-2xl font-bold">Edit Registration Details</h2>
+                    <form action="update_registration.php" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="first_name">First Name</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="first_name" name="first_name" type="text" placeholder="First Name" value="<?php echo htmlspecialchars($data['first_name']); ?>" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="last_name">Last Name</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="last_name" name="last_name" type="text" placeholder="Last Name" value="<?php echo htmlspecialchars($data['last_name']); ?>"required>
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="phone_number">Phone Number</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="phone_number" name="phone_number" type="text" placeholder="Phone Number" value="<?php echo htmlspecialchars($data['phone_number']); ?>" required>
-                </div>
-                <div class="mb-4">
-    <label class="block mb-2 font-bold text-gray-700" for="gender">Gender</label>
-    <div class="flex items-center">
-        <input class="mr-2 leading-tight" type="radio" id="male" name="gender" value="male" <?php echo ($data['gender'] == 'male') ? 'checked' : ''; ?> required>
-        <label class="text-gray-700" for="male">Male</label>
-        <input class="ml-4 mr-2 leading-tight" type="radio" id="female" name="gender" value="female" <?php echo ($data['gender'] == 'female') ? 'checked' : ''; ?> required>
-        <label class="text-gray-700" for="female">Female</label>
-    </div>
-</div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="first_name">First Name</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="first_name" name="first_name" type="text" placeholder="First Name"
+                                value="<?php echo htmlspecialchars($data['first_name']); ?>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="last_name">Last Name</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="last_name" name="last_name" type="text" placeholder="Last Name"
+                                value="<?php echo htmlspecialchars($data['last_name']); ?>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="phone_number">Phone Number</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="phone_number" name="phone_number" type="text" placeholder="Phone Number"
+                                value="<?php echo htmlspecialchars($data['phone_number']); ?>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="gender">Gender</label>
+                            <div class="flex items-center">
+                                <input class="mr-2 leading-tight" type="radio" id="male" name="gender" value="male"
+                                    <?php echo ($data['gender'] == 'male') ? 'checked' : ''; ?> required>
+                                <label class="text-gray-700" for="male">Male</label>
+                                <input class="ml-4 mr-2 leading-tight" type="radio" id="female" name="gender"
+                                    value="female" <?php echo ($data['gender'] == 'female') ? 'checked' : ''; ?>
+                                    required>
+                                <label class="text-gray-700" for="female">Female</label>
+                            </div>
+                        </div>
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="registration_date">Registration Date</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="registration_date" name="registration_date" type="date" value="<?php echo htmlspecialchars($data['registration_date']); ?>" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="home_address">Home Address</label>
-                    <textarea
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="home_address" name="home_address" rows="3" placeholder="Home Address" required><?php echo htmlspecialchars($data['home_address']); ?></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="course">Course being pursued</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="course" name="course" type="text" placeholder="Course" value="<?php echo htmlspecialchars($data['course']); ?>" required>
-                </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="registration_date">Registration
+                                Date</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="registration_date" name="registration_date" type="date"
+                                value="<?php echo htmlspecialchars($data['registration_date']); ?>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="home_address">Home Address</label>
+                            <textarea
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="home_address" name="home_address" rows="3" placeholder="Home Address"
+                                required><?php echo htmlspecialchars($data['home_address']); ?></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="course">Course being pursued</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="course" name="course" type="text" placeholder="Course"
+                                value="<?php echo htmlspecialchars($data['course']); ?>" required>
+                        </div>
 
-                <!-- Guardian/Next of Kin Information -->
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_name">Next of Kin Name</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="next_of_kin_name" name="next_of_kin_name" type="text" placeholder="Next of Kin Name" value="<?php echo htmlspecialchars($data['next_of_kin_name']); ?>"
-                        required>
-                </div>
-                <div class="mb-4">
-    <label class="block mb-2 font-bold text-gray-700" for="address">Next of kin Address</label>
-    <textarea
-        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-        id="address" name="address" placeholder="Your Address"  required><?php echo htmlspecialchars($data['course']); ?></textarea>
-</div>
+                        <!-- Guardian/Next of Kin Information -->
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_name">Next of Kin
+                                Name</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="next_of_kin_name" name="next_of_kin_name" type="text" placeholder="Next of Kin Name"
+                                value="<?php echo htmlspecialchars($data['next_of_kin_name']); ?>" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="address">Next of kin Address</label>
+                            <textarea
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="address" name="address" placeholder="Your Address"
+                                required><?php echo htmlspecialchars($data['course']); ?></textarea>
+                        </div>
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_phone">Next of Kin Phone
-                        Numbers</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="next_of_kin_phone" name="next_of_kin_phone" type="text"
-                        placeholder="Next of Kin Phone Numbers" value="<?php echo htmlspecialchars($data['next_of_kin_phone_number']); ?>" required>
-                </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="next_of_kin_phone">Next of Kin Phone
+                                Numbers</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="next_of_kin_phone" name="next_of_kin_phone" type="text"
+                                placeholder="Next of Kin Phone Numbers"
+                                value="<?php echo htmlspecialchars($data['next_of_kin_phone_number']); ?>" required>
+                        </div>
 
-                <div class="mb-4">
-                    <label class="block mb-2 font-bold text-gray-700" for="course">Room Number</label>
-                    <input
-                        class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="room_number" name="room_number" type="text" placeholder="room Number" value="<?php echo htmlspecialchars($data['room_number']); ?>" required>
-                </div>
+                        <div class="mb-4">
+                            <label class="block mb-2 font-bold text-gray-700" for="course">Room Number</label>
+                            <input
+                                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="room_number" name="room_number" type="text" placeholder="room Number"
+                                value="<?php echo htmlspecialchars($data['room_number']); ?>" required>
+                        </div>
 
-                <div class="flex items-center">
-                    <button type="submit" class="px-4 py-2 font-bold text-white bg-gray-800 rounded hover:bg-gray-900 focus:outline-none focus:shadow-outline">Update</button>
+                        <div class="flex items-center">
+                            <button type="submit"
+                                class="px-4 py-2 font-bold text-white bg-gray-800 rounded hover:bg-gray-900 focus:outline-none focus:shadow-outline">Update</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-    </div>
+            </div>
         </div>
     </div>
 
