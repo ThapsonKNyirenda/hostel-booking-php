@@ -114,11 +114,23 @@ $result = $stmt->get_result();
                 <form action="handle_payment.php" method="POST" enctype="multipart/form-data" class="space-y-4">
                     <!-- Description -->
                     <div class="">
-                        Deposit the money to the accounts below
+                        Deposit the money to the accounts below <br>
                         TNM Mpamba: <br>
                         Airtel Money: <br>
                         Bank: <br>
 
+                    </div>
+
+                    <div>
+                        <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment
+                            Method</label>
+                        <select id="payment_method" name="payment_method" required
+                            class="w-full px-4 py-2 mt-1 border rounded-md">
+                            <option value="" disabled selected>Select Payment Method</option>
+                            <option value="TNM Mpamba">TNM Mpamba</option>
+                            <option value="Airtel Money">Airtel Money</option>
+                            <option value="Bank">Bank</option>
+                        </select>
                     </div>
 
                     <!-- Amount -->

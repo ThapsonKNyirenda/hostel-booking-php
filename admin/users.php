@@ -75,6 +75,11 @@ $result = $stmt->get_result();
                         <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
+                    <a href="admin_payment.php"
+                        class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
+                        Payments
+                    </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <i class="mr-2 fas fa-users fa-lg"></i>
                         Users

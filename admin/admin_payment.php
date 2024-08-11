@@ -1,16 +1,14 @@
 <?php
 session_start(); // Start the session
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_type'])) {
-    // If not logged in, destroy the session and redirect to the index page
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'admin') {
+    // If not logged in or not an admin, destroy the session and redirect to the index page
     session_unset();
     session_destroy();
     header("Location: ../index.html");
     exit();
 }
-
-$user_id = $_SESSION['user_id']; 
 
 // Database configuration
 include '../connection/dbconnection.php';
@@ -19,23 +17,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch payment details
-$sql = "SELECT * FROM payments WHERE user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id); // Bind the logged-in user ID to the query
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Check if the user has an entry in the applications table
-$app_check_sql = "SELECT COUNT(*) FROM applications WHERE user_id = ?";
-$app_stmt = $conn->prepare($app_check_sql);
-$app_stmt->bind_param("i", $user_id);
-$app_stmt->execute();
-$app_stmt->bind_result($app_count);
-$app_stmt->fetch();
-$app_stmt->close();
-
-$has_application = $app_count > 0;
+// Fetch all payment details along with user details
+$sql = "
+    SELECT p.id, a.first_name, a.last_name, p.date, p.amount,p.payment_method, p.full_fees, p.verification_status
+    FROM payments p
+    JOIN applications a ON p.user_id = a.user_id
+";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +32,7 @@ $has_application = $app_count > 0;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Home</title>
+    <title>Payment Details</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -52,10 +40,9 @@ $has_application = $app_count > 0;
 <body>
     <div class="flex h-screen bg-gray-100">
 
-        <!-- sidebar -->
+        <!-- Sidebar -->
         <div id="sidebar"
             class="fixed inset-0 transform -translate-x-full bg-gray-800 sidebar md:relative md:flex md:w-64 md:translate-x-0">
-
             <div class="flex flex-col flex-1 overflow-y-auto">
                 <div class="flex items-center justify-between h-16 px-4 bg-gray-900">
                     <span class="font-bold text-white uppercase"></span>
@@ -69,7 +56,15 @@ $has_application = $app_count > 0;
                     </button>
                 </div>
                 <nav class="flex-1 px-2 py-4 bg-gray-800">
-                    <a href="home.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                    <a href="admin-home.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="applications.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -77,7 +72,7 @@ $has_application = $app_count > 0;
                         </svg>
                         Applications
                     </a>
-                    <a href="payment.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                    <a href="admin_payment.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,11 +80,19 @@ $has_application = $app_count > 0;
                         </svg>
                         Payments
                     </a>
+                    <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Users
+                    </a>
                     <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                         Profile
                     </a>
@@ -133,19 +136,7 @@ $has_application = $app_count > 0;
                             <option value="approved">Approved</option>
                         </select>
                     </div>
-                    <!-- Add Payment Button -->
-                    <?php if ($has_application): ?>
-                    <a href="add_payment.php"><button
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                            Add Payment
-                        </button></a>
-                    <?php else: ?>
-                    <button class="px-4 py-2 text-sm font-medium text-white bg-gray-500 rounded-md cursor-not-allowed"
-                        disabled>
-                        Add Payment
-                    </button>
-                    <p class="text-red-500 text-sm mt-2">Please apply first</p>
-                    <?php endif; ?>
+
                 </div>
 
                 <!-- Table -->
@@ -153,8 +144,12 @@ $has_application = $app_count > 0;
                     <table class="min-w-full bg-white border border-gray-200">
                         <thead class="bg-gray-100">
                             <tr>
+                                <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Name
+                                </th>
                                 <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Date</th>
                                 <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Paid Amount
+                                </th>
+                                <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Payment Method
                                 </th>
                                 <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Balance</th>
                                 <th class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase">Verification
@@ -166,19 +161,21 @@ $has_application = $app_count > 0;
                             <?php while($row = $result->fetch_assoc()): ?>
                             <tr>
                                 <td class="px-6 py-4 text-sm text-gray-700">
+                                    <?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
+                                <td class="px-6 py-4 text-sm text-gray-700">
                                     <?php echo date('Y-m-d H:i:s', strtotime($row['date'])); ?></td>
                                 <td class="px-6 py-4 text-sm text-gray-700"><?php echo $row['amount']; ?></td>
+                                <td class="px-6 py-4 text-sm text-gray-700"><?php echo $row['payment_method']; ?></td>
                                 <td class="px-6 py-4 text-sm text-gray-700">
-                                    <?php echo $row['full_fees'] - $row['amount']; ?>
-                                </td>
+                                    <?php echo $row['full_fees'] - $row['amount']; ?></td>
                                 <td class="px-6 py-4 text-sm text-gray-700"><?php echo $row['verification_status']; ?>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-700">
-                                    <form method="POST" action="delete_payment.php">
+                                    <form method="POST" action="approve_payment.php">
                                         <input type="hidden" name="payment_id" value="<?php echo $row['id']; ?>" />
                                         <button type="submit"
-                                            class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                            Delete
+                                            class="px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">
+                                            Approve
                                         </button>
                                     </form>
                                 </td>
@@ -186,11 +183,11 @@ $has_application = $app_count > 0;
                             </tr>
                             <?php endwhile; ?>
                         </tbody>
-
                     </table>
                 </div>
             </div>
         </div>
+    </div>
 </body>
 
 </html>

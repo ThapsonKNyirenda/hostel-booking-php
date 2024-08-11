@@ -20,8 +20,9 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
     $amount = $_POST['amount'];
+    $payment_method = $_POST['payment_method']; // Get the payment method
     $proof = $_FILES['proof'];
 
     // Handle file upload
@@ -40,9 +41,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Sorry, there was an error uploading your file.");
     }
 
+    // Define variables for binding
+    $full_fees = 60000;
+    $verification_status = "pending";
+    $current_date = date('Y-m-d H:i:s'); // current date and time
+
     // Insert payment into database
-    $stmt = $conn->prepare("INSERT INTO payments (user_id, amount, proof) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $user_id, $amount, $target_file);
+   // Insert payment into database
+$stmt = $conn->prepare("INSERT INTO payments (user_id, amount, payment_method, proof, full_fees, verification_status, date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+$stmt->bind_param("isssss", $user_id, $amount, $payment_method, $target_file, $full_fees, $verification_status);
+
 
     if ($stmt->execute()) {
         // Update payment_status in applications table

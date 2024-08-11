@@ -68,6 +68,11 @@ $user = $result->fetch_assoc();
                         <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
+                    <a href="admin_payment.php"
+                        class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
+                        Payments
+                    </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
@@ -119,9 +124,12 @@ $user = $result->fetch_assoc();
                     <img src="img/profile_pic.jpg" alt="Profile Picture" class="w-32 h-32 mb-4 rounded-full">
 
                     <div class="text-center">
-                        <p class="mb-2 text-lg font-medium text-gray-700">ID: <?php echo htmlspecialchars($user['id']); ?></p>
-                        <p class="mb-2 text-lg font-medium text-gray-700">Email: <?php echo htmlspecialchars($user['email']); ?></p>
-                        <p class="mb-2 text-lg font-medium text-gray-700">User Type: <?php echo htmlspecialchars($user['userType']); ?></p>
+                        <p class="mb-2 text-lg font-medium text-gray-700">ID:
+                            <?php echo htmlspecialchars($user['id']); ?></p>
+                        <p class="mb-2 text-lg font-medium text-gray-700">Email:
+                            <?php echo htmlspecialchars($user['email']); ?></p>
+                        <p class="mb-2 text-lg font-medium text-gray-700">User Type:
+                            <?php echo htmlspecialchars($user['userType']); ?></p>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch registration details
-$sql = "SELECT * FROM applications WHERE owner = ?";
+$sql = "SELECT * FROM applications WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $user_id); // Bind the logged-in user ID to the query
 $stmt->execute();

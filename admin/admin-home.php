@@ -93,6 +93,11 @@ $conn->close();
                         <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
+                    <a href="admin_payment.php"
+                        class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="fa-solid fa-money-bill"></i>
+                        &nbsp; Payments
+                    </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
