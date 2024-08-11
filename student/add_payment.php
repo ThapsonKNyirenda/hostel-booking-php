@@ -35,6 +35,8 @@ $result = $stmt->get_result();
     <title>Student Home</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 
 <body>
@@ -66,12 +68,8 @@ $result = $stmt->get_result();
                         Applications
                     </a>
                     <a href="payment.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        Payments
+                        <i class="fa-solid fa-money-bill"></i>
+                        &nbsp; Payments
                     </a>
                     <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"

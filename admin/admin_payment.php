@@ -35,6 +35,8 @@ $result = $conn->query($sql);
     <title>Payment Details</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 
 <body>
@@ -57,51 +59,28 @@ $result = $conn->query($sql);
                 </div>
                 <nav class="flex-1 px-2 py-4 bg-gray-800">
                     <a href="admin-home.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                        <i class="mr-2 fas fa-tachometer-alt fa-lg"></i>
                         Dashboard
                     </a>
-                    <a href="applications.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                    <a href="applications.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
-                    <a href="admin_payment.php" class="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        Payments
+                    <a href="admin_payment.php"
+                        class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="fa-solid fa-money-bill"></i>
+                        &nbsp; Payments
                     </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                        <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
                     </a>
                     <a href="profile.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
+                        <i class="mr-2 fas fa-user fa-lg"></i>
                         Profile
                     </a>
                     <a href="../logout.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                        <i class="mr-2 fas fa-sign-out-alt fa-lg"></i>
                         Logout
                     </a>
                 </nav>
@@ -171,6 +150,12 @@ $result = $conn->query($sql);
                                 <td class="px-6 py-4 text-sm text-gray-700"><?php echo $row['verification_status']; ?>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-700">
+                                    <?php if ($row['verification_status'] === 'approved'): ?>
+                                    <button type="button"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-gray-400 rounded-md cursor-not-allowed">
+                                        Approved
+                                    </button>
+                                    <?php else: ?>
                                     <form method="POST" action="approve_payment.php">
                                         <input type="hidden" name="payment_id" value="<?php echo $row['id']; ?>" />
                                         <button type="submit"
@@ -178,7 +163,9 @@ $result = $conn->query($sql);
                                             Approve
                                         </button>
                                     </form>
+                                    <?php endif; ?>
                                 </td>
+
 
                             </tr>
                             <?php endwhile; ?>
@@ -189,5 +176,16 @@ $result = $conn->query($sql);
         </div>
     </div>
 </body>
+<script>
+document.getElementById('menu-button').addEventListener('click', function() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('-translate-x-full');
+});
+
+document.getElementById('close-button').addEventListener('click', function() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.add('-translate-x-full');
+});
+</script>
 
 </html>

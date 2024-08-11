@@ -85,6 +85,11 @@ $result = $stmt->get_result();
                         <i class="mr-2 fas fa-clipboard-list fa-lg"></i>
                         Applications
                     </a>
+                    <a href="admin_payment.php"
+                        class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                        <i class="fa-solid fa-money-bill"></i>
+                        &nbsp; Payments
+                    </a>
                     <a href="users.php" class="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <i class="mr-2 fas fa-users fa-lg"></i>
                         Users
@@ -151,8 +156,7 @@ $result = $stmt->get_result();
                                     <th class="px-4 py-2 text-left">Next of Kin Name</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Address</th>
                                     <th class="px-4 py-2 text-left">Next of Kin Phone Number</th>
-                                    <th class="px-4 py-2 text-left">Balance</th>
-                                    <th class="px-4 py-2 text-left">Actions</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -171,11 +175,7 @@ $result = $stmt->get_result();
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_name']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_current_address']) . "</td>";
                                         echo "<td class='px-4 py-2 border-b'>" . htmlspecialchars($row['next_of_kin_phone_number']) . "</td>";
-                                        echo "<td id='balance-{$row['id']}' class='px-4 py-2 border-b balance-column'>" ."K". htmlspecialchars($row['balance']) . "</td>";
-                                        echo "<td class='px-4 py-2 border-b'>";
-                                        echo "<button class='bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onclick='openBalanceUpdateForm({$row['id']})'>Add Payment</button>";
-
-                                        echo "</tr>";
+                                        
                                     }
                                 } else {
                                     echo "<tr><td colspan='12' class='px-4 py-2 text-center'>No records found</td></tr>";
