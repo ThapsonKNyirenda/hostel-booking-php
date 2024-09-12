@@ -32,18 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: student/home.php");
             } else {
                 // Handle unexpected user types
-                header("Location: index.html?login=failed");
+                header("Location: login.html?login=failed");
             exit();
             }
             exit();
         } else {
             // Invalid password
-            header("Location: index.html?login=failed");
+            header("Location: login.html?login=failed");
             exit();
         }
     } else {
         // No user found with that email
-        header("Location: index.html?login=failed");
+        header("Location: login.html?login=failed");
             exit();
     }
 }
